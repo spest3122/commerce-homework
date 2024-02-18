@@ -1,10 +1,13 @@
-<script setup></script>
-
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank"> </a>
-    <a href="https://vuejs.org/" target="_blank"> </a>
+  <div class="max-w-[1920px]">
+    <Header></Header>
+    <Main></Main>
   </div>
 </template>
+
+<script setup>
+import Header from "./components/Header.vue";
+import Main from "./components/Main.vue";
+</script>
 
 <style scoped></style>
