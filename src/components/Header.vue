@@ -104,10 +104,22 @@
               <UserIcon class="h-7 w-7" aria-hidden="true" />
             </button>
           </li>
-          <li class="mx-2">
-            <button>
-              <ShoppingCartIcon class="h-7 w-7" aria-hidden="true" />
-            </button>
+          <li
+            class="mx-2 relative"
+            @mouseover="cartHover = true"
+            @mouseleave="cartHover = false"
+          >
+            <ShoppingCartIcon class="h-7 w-7" aria-hidden="true" />
+            <div
+              class="w-[400px] bg-white absolute mt-2 right-0 py-4 px-3 border flex flex-col"
+              v-show="cartHover"
+            >
+              <button
+                class="py-4 border mt-10 hover:bg-amber-100 hover:border-amber-100"
+              >
+                前往結帳
+              </button>
+            </div>
           </li>
           <li class="mx-2 lg:hidden max-lg:block">
             <button>
@@ -126,7 +138,7 @@
             class="pl-20 py-4 outline-none w-full max-lg:pl-4"
             placeholder="SEARCH搜尋..."
           />
-          <div class="mr-24 absolute right-0 max-lg:mr-12">
+          <div class="mr-24 absolute right-0 max-lg:mr-8">
             <MagnifyingGlassIcon class="h-7 w-7" aria-hidden="true" />
           </div>
         </div>
@@ -148,7 +160,8 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
-const searchBarStatus = ref(true);
+const searchBarStatus = ref(false);
+const cartHover = ref(false);
 
 function toggleSearchBar() {
   searchBarStatus.value = !searchBarStatus.value;
