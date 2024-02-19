@@ -1,71 +1,83 @@
 <template>
   <header
-    class="flex items-center fixed h-24 border-b-[#EDEDED] border-b w-full bg-white px-3 my-0 mx-auto"
+    class="fixed h-24 border-b-[#EDEDED] border-b w-full bg-white px-3 my-0 mx-auto"
   >
-    <div class="flex items-center h-full">
-      <h1 class="flex h-10">
-        <img src="../assets/Flogo.jpg" class="h-full w-full" />
-      </h1>
-    </div>
-    <nav class="flex-auto text-sm">
-      <ul class="flex">
-        <li
-          v-for="nav in navList"
-          :key="`nav-${nav.id}`"
-          class="mx-5 text-center w-24 relative"
-          @mouseover="nav.hover = true"
-          @mouseleave="nav.hover = false"
-        >
-          <a href="#" class="cursor-pointer">{{
-            nav.hover ? nav.subName : nav.name
-          }}</a>
-
-          <span
-            v-show="nav.hover"
-            class="absolute left-0 bottom-0 w-full h-[1px] bg-black"
-          ></span>
-
-          <ul
-            v-show="nav.nested && nav.hover"
-            class="bg-white absolute top-5 py-3 text-left"
+    <div
+      class="relative w-full flex max-lg:flex-col max-lg:items-start items-center h-full"
+    >
+      <div class="flex items-center h-full">
+        <h1 class="flex h-10">
+          <img src="../assets/Flogo.jpg" class="h-full w-full" />
+        </h1>
+      </div>
+      <nav class="text-sm max-lg:text-xs max-lg:font-bold max-lg:w-full">
+        <ul class="flex max-lg:justify-between">
+          <li
+            v-for="(nav, index) in navList"
+            :key="`nav-${nav.id}`"
+            :class="[
+              index === 0 ? 'max-lg:hidden' : '',
+              'mx-5 text-center relative max-lg:py-2 max-lg:mx-0',
+            ]"
+            @mouseover="nav.hover = true"
+            @mouseleave="nav.hover = false"
           >
-            <li
-              v-for="nest in nav.nested"
-              :key="`nest-${nest.id}`"
-              class="w-24 px-2 mt-2 relative"
-              @mouseover="nest.hover = true"
-              @mouseleave="nest.hover = false"
+            <a href="#" class="cursor-pointer">{{
+              nav.hover ? nav.subName : nav.name
+            }}</a>
+
+            <span
+              v-show="nav.hover"
+              class="absolute left-0 bottom-0 w-full h-[1px] bg-black"
+            ></span>
+
+            <ul
+              v-show="nav.nested && nav.hover"
+              class="bg-white absolute top-5 py-3 text-left"
             >
-              <a
-                href="#"
-                :class="[
-                  nest.hover ? 'border-b border-b-black' : '',
-                  'cursor-pointer',
-                ]"
-                >{{ nest.name }}</a
+              <li
+                v-for="(nest, index) in nav.nested"
+                :key="`nest-${nest.id}`"
+                class="w-24 px-2 mt-2 relative max-lg:w-18"
+                @mouseover="nest.hover = true"
+                @mouseleave="nest.hover = false"
               >
-            </li>
-          </ul>
+                <a
+                  href="#"
+                  :class="[
+                    nest.hover ? 'border-b border-b-black' : '',
+                    'cursor-pointer',
+                  ]"
+                  >{{ nest.name }}</a
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <menu class="flex max-lg:top-4 absolute right-0">
+        <li class="mx-2">
+          <button>
+            <MagnifyingGlassIcon class="h-7 w-7" aria-hidden="true" />
+          </button>
         </li>
-      </ul>
-    </nav>
-    <menu class="flex">
-      <li class="mx-2">
-        <button>
-          <MagnifyingGlassIcon class="h-8 w-8" aria-hidden="true" />
-        </button>
-      </li>
-      <li class="mx-2">
-        <button>
-          <UserIcon class="h-8 w-8" aria-hidden="true" />
-        </button>
-      </li>
-      <li class="mx-2">
-        <button>
-          <ShoppingCartIcon class="h-8 w-8" aria-hidden="true" />
-        </button>
-      </li>
-    </menu>
+        <li class="mx-2">
+          <button>
+            <UserIcon class="h-7 w-7" aria-hidden="true" />
+          </button>
+        </li>
+        <li class="mx-2">
+          <button>
+            <ShoppingCartIcon class="h-7 w-7" aria-hidden="true" />
+          </button>
+        </li>
+        <li class="mx-2 lg:hidden max-lg:block">
+          <button>
+            <Bars3Icon class="h-7 w-7" aria-hidden="true" />
+          </button>
+        </li>
+      </menu>
+    </div>
   </header>
 </template>
 <script setup>
@@ -74,6 +86,7 @@ import {
   ShoppingCartIcon,
   UserIcon,
   MagnifyingGlassIcon,
+  Bars3Icon,
 } from "@heroicons/vue/24/outline";
 const navList = ref([
   {
