@@ -1,16 +1,18 @@
 <template>
   <header
-    class="fixed h-24 border-b-[#EDEDED] border-b w-full bg-white px-3 my-0 mx-auto"
+    class="fixed border-b-[#EDEDED] border-b w-full bg-white my-0 mx-auto"
   >
     <div
-      class="relative w-full flex max-lg:flex-col max-lg:items-start items-center h-full"
+      class="relative w-full flex max-lg:flex-col max-lg:items-start items-center h-24"
     >
-      <div class="flex items-center h-full">
+      <div class="flex items-center h-full pl-3">
         <h1 class="flex h-10">
           <img src="../assets/Flogo.jpg" class="h-full w-full" />
         </h1>
       </div>
-      <nav class="text-sm max-lg:text-xs max-lg:font-bold max-lg:w-full">
+      <nav
+        class="text-sm max-lg:text-xs max-lg:font-bold max-lg:w-full max-lg:px-3"
+      >
         <ul class="flex max-lg:justify-between">
           <li
             v-for="(nav, index) in navList"
@@ -85,28 +87,55 @@
           </li>
         </ul>
       </nav>
-      <menu class="flex max-lg:top-4 absolute right-0">
-        <li class="mx-2">
-          <button>
-            <MagnifyingGlassIcon class="h-7 w-7" aria-hidden="true" />
+      <menu class="flex max-lg:top-4 absolute right-3">
+        <li class="mx-2" v-show="searchBarStatus">
+          <button @click="toggleSearchBar">
+            <XMarkIcon class="h-7 w-7" aria-hidden="true" />
           </button>
         </li>
-        <li class="mx-2">
-          <button>
-            <UserIcon class="h-7 w-7" aria-hidden="true" />
-          </button>
-        </li>
-        <li class="mx-2">
-          <button>
-            <ShoppingCartIcon class="h-7 w-7" aria-hidden="true" />
-          </button>
-        </li>
-        <li class="mx-2 lg:hidden max-lg:block">
-          <button>
-            <Bars3Icon class="h-7 w-7" aria-hidden="true" />
-          </button>
-        </li>
+        <template v-if="!searchBarStatus">
+          <li class="mx-2">
+            <button @click="toggleSearchBar">
+              <MagnifyingGlassIcon class="h-7 w-7" aria-hidden="true" />
+            </button>
+          </li>
+          <li class="mx-2">
+            <button>
+              <UserIcon class="h-7 w-7" aria-hidden="true" />
+            </button>
+          </li>
+          <li class="mx-2">
+            <button>
+              <ShoppingCartIcon class="h-7 w-7" aria-hidden="true" />
+            </button>
+          </li>
+          <li class="mx-2 lg:hidden max-lg:block">
+            <button>
+              <Bars3Icon class="h-7 w-7" aria-hidden="true" />
+            </button>
+          </li>
+        </template>
       </menu>
+      <div
+        class="absolute -bottom-24 w-full z-10 flex flex-col"
+        v-show="searchBarStatus"
+      >
+        <div class="border-b border-b-[#EDEDED] flex items-center relative">
+          <input
+            type="text"
+            class="pl-20 py-4 outline-none w-full max-lg:pl-4"
+            placeholder="SEARCH搜尋..."
+          />
+          <div class="mr-24 absolute right-0 max-lg:mr-12">
+            <MagnifyingGlassIcon class="h-7 w-7" aria-hidden="true" />
+          </div>
+        </div>
+        <ul class="flex pl-20 py-4 max-lg:pl-4">
+          <li v-for="tag in searchBarTags" class="py-1 px-4 mr-3 bg-amber-100">
+            <a>{{ tag.name }}</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </header>
 </template>
@@ -117,7 +146,21 @@ import {
   UserIcon,
   MagnifyingGlassIcon,
   Bars3Icon,
+  XMarkIcon,
 } from "@heroicons/vue/24/outline";
+const searchBarStatus = ref(true);
+
+function toggleSearchBar() {
+  searchBarStatus.value = !searchBarStatus.value;
+}
+
+const searchBarTags = ref([
+  { id: 1, name: "紅" },
+  { id: 2, name: "背心" },
+  { id: 3, name: "襯衫" },
+  { id: 4, name: "外套" },
+]);
+
 const navList = ref([
   {
     id: 1,
