@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-[1920px]">
+  <div class="max-w-[1920px] relative">
     <Header></Header>
     <Sidebar></Sidebar>
     <Main></Main>
