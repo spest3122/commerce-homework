@@ -1,6 +1,6 @@
 <template>
   <header
-    class="fixed border-b-[#EDEDED] border-b w-full bg-white my-0 mx-auto"
+    class="fixed border-b-[#EDEDED] border-b w-full bg-white my-0 mx-auto z-10"
   >
     <div
       class="relative w-full flex max-lg:flex-col max-lg:items-start items-center h-24"
@@ -35,7 +35,7 @@
 
             <ul
               v-show="nav.nested && nav.hover"
-              class="bg-white absolute top-5 py-3 text-left"
+              class="bg-white absolute top-5 py-3 text-left max-lg:hidden"
             >
               <li
                 v-for="nest in nav.nested"
@@ -60,24 +60,24 @@
             >
               <ul class="flex flex-wrap">
                 <li
-                  v-for="shopTitle in shopAllList"
-                  :key="`shopall-${shopTitle.id}`"
+                  v-for="shop in shopAllList"
+                  :key="`shopall-${shop.id}`"
                   class="p-4"
                 >
                   <span
                     class="font-bold cursor-pointer hover:border-b hover:border-b-black"
                   >
-                    {{ shopTitle.theme }}</span
+                    {{ shop.theme }}</span
                   >
                   <ul class="flex flex-col mt-2">
                     <li
-                      v-for="subList in shopTitle.lists"
-                      :key="`${shopTitle.id}-${subList.id}`"
+                      v-for="subShop in shop.lists"
+                      :key="`${shop.id}-${subShop.id}`"
                     >
                       <span
                         class="hover:border-b hover:border-b-black cursor-pointer"
                       >
-                        {{ subList.name }}
+                        {{ subShop.name }}
                       </span>
                     </li>
                   </ul>
@@ -122,14 +122,19 @@
             </div>
           </li>
           <li class="mx-2 lg:hidden max-lg:block">
-            <button>
-              <Bars3Icon class="h-7 w-7" aria-hidden="true" />
+            <button @click="$emit('toggleSideBar')">
+              <Bars3Icon
+                class="h-7 w-7"
+                aria-hidden="true"
+                v-if="sideBarStatus"
+              />
+              <XMarkIcon class="h-7 w-7" aria-hidden="true" v-else />
             </button>
           </li>
         </template>
       </menu>
       <div
-        class="absolute -bottom-24 w-full z-10 flex flex-col"
+        class="absolute -bottom-24 w-full z-10 flex flex-col bg-white"
         v-show="searchBarStatus"
       >
         <div class="border-b border-b-[#EDEDED] flex items-center relative">
@@ -152,6 +157,8 @@
   </header>
 </template>
 <script setup>
+defineProps(["sideBarStatus"]);
+defineEmits(["toggleSideBar"]);
 import { ref } from "vue";
 import {
   ShoppingCartIcon,
