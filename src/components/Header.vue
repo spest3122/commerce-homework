@@ -111,7 +111,7 @@
           >
             <ShoppingCartIcon class="h-7 w-7" aria-hidden="true" />
             <div
-              class="w-[400px] bg-white absolute mt-2 right-0 py-4 px-3 border flex flex-col"
+              class="w-[400px] bg-white absolute mt-2 right-0 py-4 px-3 border flex flex-col max-lg:hidden"
               v-show="cartHover"
             >
               <button
