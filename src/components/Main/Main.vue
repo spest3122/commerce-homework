@@ -1,13 +1,16 @@
-<template lang="">
-  <main class="pt-24 flex h-full max-lg:flex-col">
-    <section class="w-1/2 max-lg:w-full" ref="scrollRef">
+<template>
+  <main class="pt-24 pb-10 flex max-lg:flex-col overflow-auto" ref="scrollRef">
+    <section class="w-1/2 max-lg:w-full h-full overflow-hidden">
       <img v-for="i in 3" :src="`/src/assets/picture${i}.png`" />
     </section>
     <section
       class="w-1/2 relative flex justify-center items-center max-lg:w-full"
     >
       <div
-        class="fixed flex flex-col w-1/3 max-lg:relative max-lg:w-full max-lg:px-4 max-lg:pb-20"
+        :class="[
+          scrollStyle ? 'lg:absolute lg:bottom-48' : 'lg:fixed lg:top-48',
+          ' flex flex-col max-w-[600px] max-lg:relative max-lg:w-full max-lg:px-4 max-lg:pb-20',
+        ]"
       >
         <div class="flex justify-end mb-4 max-lg:mt-2">
           <HeartIcon class="w-7 h-7" />
@@ -96,6 +99,7 @@ const count = ref(1);
 const sizeSelect = ref("");
 const currentCom = ref(0);
 const scrollRef = ref(null);
+const scrollStyle = ref(false);
 let lastScrollTime = 0;
 
 onMounted(() => {
@@ -108,15 +112,15 @@ onBeforeUnmount(() => {
 
 function onScroll() {
   const now = Date.now();
-  if (now - lastScrollTime > 300) {
+  if (now - lastScrollTime > 250) {
     lastScrollTime = now;
-
-    console.log(window.innerHeight, window.scrollY, document.body.scrollHeight);
     if (
       window.innerHeight + window.scrollY >=
-      document.body.scrollHeight - 500
+      scrollRef.value.scrollHeight - 200
     ) {
-      console.log("you reach to the bottom");
+      scrollStyle.value = true;
+    } else {
+      scrollStyle.value = false;
     }
   }
 }

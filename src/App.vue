@@ -7,7 +7,8 @@
 
     <Sidebar :class="{ hidden: sideBarStatus }"></Sidebar>
     <Main></Main>
-    <!-- <Footer></Footer> -->
+    <Carousel />
+    <Footer></Footer>
   </div>
 </template>
 
@@ -17,6 +18,7 @@ import Header from "./components/Header.vue";
 import Main from "./components/Main/Main.vue";
 import Sidebar from "./components/Sidebar.vue";
 import Footer from "./components/Footer.vue";
+import Carousel from "./components/Carousel.vue";
 const sideBarStatus = ref(true);
 function toggleSideBar() {
   sideBarStatus.value = !sideBarStatus.value;
