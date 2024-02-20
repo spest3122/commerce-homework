@@ -1,5 +1,5 @@
 <template lang="">
-  <div class="mt-24 pt-1 bg-white fixed w-full h-full">
+  <div class="mt-24 pt-1 bg-white fixed w-full h-full z-10">
     <div class="flex flex-col h-full text-left text-sm">
       <ul class="flex flex-col">
         <li

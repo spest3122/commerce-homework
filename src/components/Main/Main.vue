@@ -1,6 +1,6 @@
 <template lang="">
   <main class="pt-24 flex h-full max-lg:flex-col">
-    <section class="w-1/2 max-lg:w-full">
+    <section class="w-1/2 max-lg:w-full" ref="scrollRef">
       <img v-for="i in 3" :src="`/src/assets/picture${i}.png`" />
     </section>
     <section
@@ -81,22 +81,45 @@
         <component :is="stockInfo[currentCom]['com']"></component>
       </div>
     </section>
-    <div class="hidden max-lg:block fixed bottom-0 w-full">
-      <button class="text-white bg-black py-3 w-full">
-        {{ "加入購物車" }}
-      </button>
-    </div>
+    <StickyBottom />
   </main>
 </template>
 <script setup>
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { HeartIcon, PlusIcon, MinusIcon } from "@heroicons/vue/24/outline";
+
 import StockInfo from "./StockInfo.vue";
 import WashWay from "./WashWay.vue";
+import StickyBottom from "./StickyBottom.vue";
 
-import { ref } from "vue";
 const count = ref(1);
 const sizeSelect = ref("");
 const currentCom = ref(0);
+const scrollRef = ref(null);
+let lastScrollTime = 0;
+
+onMounted(() => {
+  window.addEventListener("scroll", onScroll);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", onScroll);
+});
+
+function onScroll() {
+  const now = Date.now();
+  if (now - lastScrollTime > 300) {
+    lastScrollTime = now;
+
+    console.log(window.innerHeight, window.scrollY, document.body.scrollHeight);
+    if (
+      window.innerHeight + window.scrollY >=
+      document.body.scrollHeight - 500
+    ) {
+      console.log("you reach to the bottom");
+    }
+  }
+}
 
 function switchInfo(index) {
   currentCom.value = index;

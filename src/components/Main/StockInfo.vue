@@ -15,7 +15,5 @@
     <p>加工產地 / 台灣</p>
   </div>
 </template>
-<script>
-export default {};
-</script>
+<script setup></script>
 <style lang=""></style>

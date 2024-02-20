@@ -58,7 +58,7 @@
               class="flex flex-wrap justify-between absolute pt-12 bg-white h-full w-[600px] text-left"
               v-show="index === 0 && nav.hover"
             >
-              <ul class="flex flex-wrap">
+              <ul class="flex flex-wrap bg-white">
                 <li
                   v-for="shop in shopAllList"
                   :key="`shopall-${shop.id}`"
