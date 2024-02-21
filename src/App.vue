@@ -9,6 +9,10 @@
     <Main></Main>
     <Carousel />
     <Footer></Footer>
+    <Modal :visible="true">
+      <h2>Modal Content</h2>
+      <p>This is the content of the modal.</p>
+    </Modal>
   </div>
 </template>
 
@@ -19,6 +23,7 @@ import Main from "./components/Main/Main.vue";
 import Sidebar from "./components/Sidebar.vue";
 import Footer from "./components/Footer.vue";
 import Carousel from "./components/Carousel.vue";
+import Modal from "./components/Utils/Modal.vue";
 const sideBarStatus = ref(true);
 function toggleSideBar() {
   sideBarStatus.value = !sideBarStatus.value;
