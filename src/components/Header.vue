@@ -109,7 +109,12 @@
             @mouseover="cartHover = true"
             @mouseleave="cartHover = false"
           >
-            <ShoppingCartIcon class="h-7 w-7" aria-hidden="true" />
+            <div class="relative">
+              <ShoppingCartIcon class="h-7 w-7" aria-hidden="true" />
+              <span class="absolute bottom-5 right-3">{{
+                cart.listLength
+              }}</span>
+            </div>
             <div
               class="w-[400px] bg-white absolute mt-2 right-0 py-4 px-3 border flex flex-col max-lg:hidden"
               v-show="cartHover"
@@ -118,10 +123,12 @@
                 <li
                   v-for="(item, index) in cart.cartList"
                   :key="`cart-${index}`"
+                  class="flex items-center justify-between border-b border-b-[#EDEDED] py-4"
                 >
-                  {{
-                    `${item.name}-${item.color}-${item.size}-${item.quantity}`
-                  }}
+                  <span>服飾:{{ item.name }}</span>
+                  <span>顏色:{{ item.color.name }}</span>
+                  <span>尺寸:{{ item.size }}</span>
+                  <span>數量:{{ item.quantity }}</span>
                 </li>
               </ul>
               <button

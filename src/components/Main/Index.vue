@@ -28,7 +28,10 @@
                   'p-1 mr-2',
                 ]"
               >
-                <div :class="'w-6 h-6 bg-[' + color.code + ']'"></div>
+                <div
+                  @click="colorIndex = index"
+                  :class="`w-6 h-6 ${color.code} cursor-pointer`"
+                ></div>
               </div>
             </template>
           </div>
@@ -97,7 +100,7 @@
         <component :is="stockInfo[currentCom]['com']"></component>
       </div>
     </section>
-    <StickyBottom />
+    <StickyBottom @submitAdd="() => submitAdd('cart')" />
   </main>
 </template>
 <script setup>
@@ -201,8 +204,8 @@ const sizeList = ref([
 ]);
 
 const colors = ref([
-  { id: 1, name: "黑", code: "#000000" },
-  { id: 2, name: "灰", code: "#888888" },
+  { id: 1, name: "黑", code: "bg-[#000000]" },
+  { id: 2, name: "灰", code: "bg-[#888888]" },
 ]);
 </script>
 <style lang=""></style>

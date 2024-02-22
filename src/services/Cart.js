@@ -1,16 +1,18 @@
 import { defineStore } from "pinia";
 export const useCartStore = defineStore("counter", {
-  /**
-   *
-   * {
-   *    name: 'cloths',
-   *    color: 'black',
-   *    size: 'S+',
-   *    quantity: 3
-   * }
-   */
-  state: () => ({ cartList: [] }),
-  getters: {},
+  state: () => {
+    let cartListFromStorage = localStorage.getItem("cart") || [];
+    if (cartListFromStorage.length > 0) {
+      cartListFromStorage = JSON.parse(cartListFromStorage);
+    }
+
+    return {
+      cartList: cartListFromStorage,
+    };
+  },
+  getters: {
+    listLength: (state) => state.cartList.length,
+  },
   actions: {
     addCart({ name, color, size, quantity }) {
       let tempList = this.cartList;
@@ -36,6 +38,7 @@ export const useCartStore = defineStore("counter", {
           quantity: quantity,
         });
       }
+      localStorage.setItem("cart", JSON.stringify(tempList));
       this.cartList = tempList;
     },
   },
