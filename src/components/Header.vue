@@ -114,6 +114,16 @@
               class="w-[400px] bg-white absolute mt-2 right-0 py-4 px-3 border flex flex-col max-lg:hidden"
               v-show="cartHover"
             >
+              <ul>
+                <li
+                  v-for="(item, index) in cart.cartList"
+                  :key="`cart-${index}`"
+                >
+                  {{
+                    `${item.name}-${item.color}-${item.size}-${item.quantity}`
+                  }}
+                </li>
+              </ul>
               <button
                 class="py-4 border mt-10 hover:bg-amber-100 hover:border-amber-100"
               >
@@ -167,6 +177,8 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
+import { useCartStore } from "../services/Cart";
+const cart = useCartStore();
 const searchBarStatus = ref(false);
 const cartHover = ref(false);
 

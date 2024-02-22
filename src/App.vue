@@ -9,7 +9,9 @@
     <Main></Main>
     <Carousel />
     <Footer></Footer>
+
     <Modal
+      v-if="modalConfig.visible"
       :modalConfig="modalConfig"
       @close="modalConfig.visible = !modalConfig.visible"
     ></Modal>
@@ -17,7 +19,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, provide } from "vue";
 import Header from "./components/Header.vue";
 import Main from "./components/Main/Index.vue";
 import Sidebar from "./components/Sidebar.vue";
@@ -27,22 +29,19 @@ import Modal from "./components/Utils/Modal.vue";
 
 const sideBarStatus = ref(true);
 const modalConfig = ref({
-  visible: true,
-  content: `
-  <div class="w-20 h-20 bg-lime-100 mb-4"></div>
-      <p>已加入購物車</p>
-    `,
-  cancelTimeout: false,
+  visible: false,
+  content: 1,
 });
-/**
- * status1 <div class="w-20 h-20 bg-lime-100 mb-4"></div>
-      <p>已加入購物車</p>
-      cancelTimeout: false
- * status2 <div class="w-20 h-20 bg-lime-100 mb-4"></div>
-      <p>請選擇尺寸</p>
-      cancelTimeout: true
 
- */
+provide("modalSetup", {
+  setUpModal,
+});
+
+function setUpModal({ visible, content }) {
+  modalConfig.value["visible"] = visible;
+  modalConfig.value["content"] = content;
+}
+
 function toggleSideBar() {
   sideBarStatus.value = !sideBarStatus.value;
 }

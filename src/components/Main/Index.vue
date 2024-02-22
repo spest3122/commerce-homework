@@ -16,14 +16,23 @@
           <HeartIcon class="w-7 h-7" />
         </div>
         <div class="flex justify-between text-xl mb-5">
-          <p>就是圖片一圖片一</p>
-          <p>NT. 100000</p>
+          <p>{{ item.name }}</p>
+          <p>NT. {{ item.price }}</p>
         </div>
         <div class="flex items-center justify-between mb-8">
-          <div class="border border-black p-1">
-            <div class="w-6 h-6 bg-black"></div>
+          <div class="flex flex-auto">
+            <template v-for="(color, index) in colors" :key="color.id">
+              <div
+                :class="[
+                  colorIndex === index ? 'border border-black' : '',
+                  'p-1 mr-2',
+                ]"
+              >
+                <div :class="'w-6 h-6 bg-[' + color.code + ']'"></div>
+              </div>
+            </template>
           </div>
-          <p>黑</p>
+          <p>{{ colors[colorIndex].name }}</p>
         </div>
         <ul class="flex mb-8">
           <li
@@ -59,11 +68,15 @@
         <div class="flex justify-between mb-3 max-lg:hidden">
           <button
             class="border border-black flex-auto py-3 hover:bg-amber-100 hover:border-amber-100"
+            @click="submitAdd('payment')"
           >
             {{ sizeSelect === "" ? "請選擇尺寸" : "立即結帳" }}
           </button>
           <div class="w-2.5"></div>
-          <button class="flex-auto text-white bg-black py-3">
+          <button
+            @click="submitAdd('cart')"
+            class="flex-auto text-white bg-black py-3"
+          >
             {{ sizeSelect === "" ? "請選擇尺寸" : "加入購物車" }}
           </button>
         </div>
@@ -88,16 +101,21 @@
   </main>
 </template>
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount, inject } from "vue";
 import { HeartIcon, PlusIcon, MinusIcon } from "@heroicons/vue/24/outline";
-
+import { useCartStore } from "../../services/Cart";
 import StockInfo from "./StockInfo.vue";
 import WashWay from "./WashWay.vue";
 import StickyBottom from "./StickyBottom.vue";
 
+const cart = useCartStore();
+
+const { setUpModal } = inject("modalSetup");
 const count = ref(1);
 const sizeSelect = ref("");
+const colorIndex = ref(0);
 const currentCom = ref(0);
+const item = ref({ name: "就是圖片一圖片一", price: 100000 });
 const scrollRef = ref(null);
 const scrollStyle = ref(false);
 let lastScrollTime = 0;
@@ -141,6 +159,35 @@ function plusOrMinus(type) {
   }
 }
 
+function submitAdd(type) {
+  if (sizeSelect["value"] === "") {
+    setUpModal({ visible: true, content: 2 });
+    return;
+  }
+  let result = {
+    name: item["value"].name,
+    color: colors["value"][colorIndex.value],
+    size: sizeSelect["value"],
+    quantity: count["value"],
+  };
+
+  cart.addCart(result);
+
+  setUpModal({ visible: true, content: 1 });
+
+  resetValue();
+
+  if (type === "payment") {
+    //go to login
+  }
+}
+
+function resetValue() {
+  sizeSelect.value = "";
+  count.value = 1;
+  colorIndex.value = 0;
+}
+
 const stockInfo = ref([
   { id: 1, name: "商品資訊", com: StockInfo },
   { id: 2, name: "洗滌方式", com: WashWay },
@@ -151,6 +198,11 @@ const sizeList = ref([
   { id: 1, size: "S-" },
   { id: 2, size: "S" },
   { id: 2, size: "S+" },
+]);
+
+const colors = ref([
+  { id: 1, name: "黑", code: "#000000" },
+  { id: 2, name: "灰", code: "#888888" },
 ]);
 </script>
 <style lang=""></style>
